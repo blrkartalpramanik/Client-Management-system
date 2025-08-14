@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 
@@ -8,8 +8,16 @@ import { Router } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 constructor(private router:Router){}
+
+
+
+  ngOnInit(): void {
+  localStorage.getItem('token')  
+  
+  }
+
 
 logout() {
   if (typeof window !== 'undefined') {

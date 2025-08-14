@@ -15,4 +15,10 @@ export class UserService {
   userLogin(email: string, password: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, { email, password });
   }
+
+
+  registerClient( url:any,data:any): Observable<any> {
+    return this.http.post(`${this.baseUrl}${url}`,data);
+  }
+
 }
