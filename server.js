@@ -21,8 +21,6 @@ const db = mysql.createConnection({
 });
 
 
-
-
 //verify the connectivity
 db.connect(err => {
     if (err) {
@@ -51,14 +49,6 @@ function verifyToken(req, res, next) {
     });
 }
 
-
-
-
-
-
-
-
-
 //get client profile api
 
 app.get('/getClientProfile', verifyToken, (req, res) => {
@@ -73,7 +63,6 @@ app.get('/getClientProfile', verifyToken, (req, res) => {
         }
     })
 })
-
 
 
 //Add client registration
@@ -264,7 +253,8 @@ const createZoomMeeting = async (topic, startTime) => {
     return jsonResponse; // includes join_url, start_url, id, password
 };
 
-// ✅ API with Zoom Integration and DB Insert
+//API with Zoom Integration and DB Insert
+
 app.post('/createMeeting', verifyToken, async (req, res) => {
     const { client_id, meeting_topic, start_time, number_of_people, phone, remarks } = req.body;
 
@@ -293,7 +283,8 @@ app.post('/createMeeting', verifyToken, async (req, res) => {
                 console.error('Error in inserting meeting data:', err);
                 return res.status(500).json({ error: 'An error occurred' });
             }
-            // ✅ Respond with success + Zoom meeting details
+            // Respond with success + Zoom meeting details
+
             res.status(200).json({
                 message: 'Meeting created successfully',
                 zoom_meeting: {
@@ -422,5 +413,3 @@ app.delete('/deleteMeetingBy/:id', verifyToken, (req, res) => {
         }
     })
 })
-
-
