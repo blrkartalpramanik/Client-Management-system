@@ -1,1 +1,66 @@
-<p>schedule-meeting works!</p>
+<div class="container">
+    <!-- Card: Form -->
+    <section class="card">
+        <div class="card__header">
+            <h2 class="card__title">Create Meeting</h2>
+            <div class="card__actions">
+                <button class="btn" (click)="reset()">Reset</button>
+                <button class="btn btn--primary" (click)="navigateToList()">List</button>
+            </div>
+        </div>
+        <div class="card__body">
+                <div class="col-6">
+                    <label for="name">Metting Id</label>
+                    <div class="field">
+                        <input id="name" type="text" [(ngModel)]="meeting.meeting_id" placeholder="e.g., CM123" disabled/>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="topic">Meeting Topic</label>
+                    <div class="field">
+                        <input id="topic" type="text" [(ngModel)]="meeting.meeting_topic" placeholder="Project discussion" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="startTime">Start Time </label>
+                    <div class="field">
+                        <input id="startTime" type="datetime-local" [(ngModel)]="meeting.start_time" placeholder="eg.,20-08-2025 14:10:00" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="people">Number of People </label>
+                    <div class="field">
+                        <input id="people" type="text" [(ngModel)]="meeting.number_of_people" placeholder="eg.,1 5 " />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="phone">Phone</label>
+                    <div class="field">
+                        <input id="phone" type="tel" [(ngModel)]="meeting.phone" placeholder="+91 98xxxxxxxx" />
+                    </div>
+                </div>
+                <!-- <div class="col-6">
+                    <label for="plan">Plan</label>
+                    <div class="field">
+                        <select id="plan">
+                            <option>Basic</option>
+                            <option>Pro</option>
+                            <option>Enterprise</option>
+                        </select>
+                    </div>
+                </div> -->
+
+                <div class="col-6">
+                    <label for="notes">Remarks</label>
+                    <div class="field">
+                        <textarea id="notes" rows="4" [(ngModel)]="meeting.remarks" placeholder="Any special instructions…"></textarea>
+                    </div>
+                </div>
+
+                <div class="col-12" style="display:flex; gap:10px; justify-content:flex-end;">
+                    <button class="btn" type="button" (click)="reload()">Cancel</button>
+                    <button class="btn btn--primary" (click)="  addMeeting()">Save</button>
+                </div>
+        </div>
+    </section>
+</div>

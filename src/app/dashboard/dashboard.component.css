@@ -1,0 +1,12 @@
+.main {
+  margin-top:60px;  
+  margin-left: 220px;
+  padding: 20px;
+  min-height: calc(100vh - 60px);
+  
+}
+.layout {
+  display: flex;
+  margin-top: 60px; /* height of topbar */
+  height: calc(100vh - 60px);
+}

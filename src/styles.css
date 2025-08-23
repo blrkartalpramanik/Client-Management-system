@@ -1,1 +1,116 @@
-/* You can add global styles to this file, and also import other style files */
+  :root{
+    --bg: #fff;
+    --panel: #fff;
+    --text: #0b1220;
+    --muted: #6b7280;
+    --ring: #2563eb;
+    --border: #e5e7eb;
+    --accent: #111827;
+    --shadow: 0 10px 25px rgba(0,0,0,.06), 0 6px 12px rgba(0,0,0,.04);
+    --radius: 16px;
+    --gap: 16px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg: #fff;
+      --panel: #fff;
+      --text: #40404b;
+      --muted: #9ca3af;
+      --ring: #60a5fa;
+      --border: #1f2937;
+      --accent: #0b1220;
+      --shadow: 0 10px 25px rgba(0,0,0,.35), 0 6px 12px rgba(0,0,0,.25);
+    }
+  }
+
+  /* ---------- Base ---------- */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  
+  .container{
+    max-width: 1100px; margin-inline:auto; display:block; gap:24px;
+  }
+  @media (min-width: 960px){ .container{ grid-template-columns: 1fr 1fr; } }
+
+  /* ---------- Card ---------- */
+  .card{
+    margin-top: 20px;
+    background:radial-gradient(1200px circle at 10% 10%, rgba(37,99,235,.08), transparent 35%) , var(--panel);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow:hidden;
+  }
+  .card__header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 20px; border-bottom:1px solid var(--border);
+    backdrop-filter: saturate(120%) blur(6px);
+  }
+  .card__title{ font-size:1.05rem; font-weight:700; letter-spacing:.2px; }
+  .card__actions{ display:flex; gap:10px; }
+  .btn{
+    appearance:none; border:1px solid var(--border);
+    background:#fff0; color:var(--text);
+    padding:8px 12px; border-radius:12px; cursor:pointer;
+    transition:.2s ease; font-weight:600;
+  }
+  .btn:hover{ transform:translateY(-1px); box-shadow:0 6px 14px rgba(0,0,0,.08) }
+  .btn--primary{
+    background:linear-gradient(180deg,#2563eb,#1d4ed8); color:white; border-color: transparent;
+  }
+  .btn--primary:hover{ filter:brightness(1.05); }
+
+  .card__body{ 
+    display: grid;
+    padding: 20px; 
+}
+
+  /* ---------- Table inside card ---------- */
+  .table-wrap{ overflow:auto; border-radius:12px; border:1px solid var(--border) }
+  table{
+    width:100%; border-collapse:collapse; min-width: 560px; background:transparent;
+  }
+  thead th{
+    text-align:left; font-size:.85rem; color:var(--muted); font-weight:700;
+    letter-spacing:.2px; padding:12px 14px; background:rgba(0,0,0,.02);
+  }
+  tbody td{
+    padding:12px 14px; border-top:1px solid var(--border);
+  }
+  tbody tr:hover{ background: rgba(37,99,235,.06) }
+
+  .badge{
+    display:inline-block; padding:4px 8px; border-radius:999px; font-size:.75rem; font-weight:700;
+    background:rgba(37,99,235,.12);
+  }
+
+  /* ---------- Form inside card ---------- */
+  .form-grid{
+    display:grid; gap: var(--gap);
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .col-6{ grid-column: span 6 }
+  .col-12{ grid-column: span 12 }
+  @media (max-width: 720px){
+    .col-6{ grid-column: span 12 }
+  }
+  label{
+    display:block; font-size:.82rem; color:var(--muted); margin-bottom:6px; font-weight:700;
+  }
+  .field{
+    display:flex; gap:10px; align-items:center; background:rgba(0,0,0,.03);
+    border:1px solid var(--border); border-radius:12px; padding:10px 12px;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .field:focus-within{
+    border-color:var(--ring); box-shadow:0 0 0 4px color-mix(in oklab, var(--ring) 20%, transparent);
+    background:rgba(37,99,235,.06);
+  }
+  .field input, .field select, .field textarea{
+    flex:1; border:0; outline:0; background:transparent; color:var(--text);
+    font-size:.95rem; padding:4px 0; min-height: 28px;
+  }
+  .hint{ font-size:.78rem; color:var(--muted); margin-top:6px }
+
+  /* ---------- Utilities ---------- */
+  .spacer{ height:8px }

@@ -13,30 +13,56 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
 import { ScheduleMeetingComponent } from './schedule-meeting/schedule-meeting.component'
 import { AuthGuard } from './auth.guard';
+import { MeetingListComponent } from './meeting-list/meeting-list.component';
+import { DashboardHomeComponent } from './dashboard-home/dashboard-home.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
+
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent },
 
-  //{path:'edit/:id',component:EditProductComponent}
-]
+  {
+    path: '',
+    component: DashboardComponent,   
+    children: [
+      { path: 'dashboard', component: DashboardHomeComponent, canActivate: [AuthGuard] },
+      { path: 'profile', component: EditProfileComponent, canActivate: [AuthGuard] }, 
+      { path: 'meeting', component: MeetingListComponent, canActivate: [AuthGuard] },
+      { path: 'create', component: ScheduleMeetingComponent, canActivate: [AuthGuard] },
+      {path:'edit/:id',component:ScheduleMeetingComponent, canActivate: [AuthGuard]}
+
+    ]
+  },
+
+  { path: '**', redirectTo: 'login' }
+];
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    DashboardComponent,
     LoginComponent,
     RegisterComponent,
     SideBarComponent,
     TopBarComponent,
-    ScheduleMeetingComponent
+    ScheduleMeetingComponent,
+    MeetingListComponent,
+    DashboardHomeComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot(routes),
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    FullCalendarModule
 
   ],
   providers: [

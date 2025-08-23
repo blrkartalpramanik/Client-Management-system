@@ -18,28 +18,59 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  registerClient() {
 
-    if (!this.register.name || !this.register.email || !this.register.password || !this.register.repeat_password){
-      alert('data required');
-      return;
+  validateEmail(): boolean {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(this.register.email);
   }
 
-      this.userService.registerClient('/addClientProfile', this.register).subscribe({
-        next: (res: any) => {
-          console.log(res);
-          if (res) {
-            alert('Registration done successfuly.');
-            this.router.navigate(['/login']);
-          } else {
-            alert(res.message || 'Invalid data');
-          }
-        },
-        error: () => {
-          alert('Registration failed. Please try again.');
-        }
+  registerClient() {
 
-      })
+    if(!this.register.name) {
+      alert('Name is required');
+      return;
+    }
+
+    if(!this.register.email) {
+      alert('Email is required');
+      return;
+    }
+
+    if(!this.validateEmail()) {
+      alert('Invalid email format');
+      return;
+    }
+
+    if (!this.register.password) {
+      alert('password is required');
+      return;
+    }
+
+    if (!this.register.repeat_password) {
+      alert('Confirm Password is required');
+      return;
+    }
+
+    if(this.register.password !== this.register.repeat_password) {
+      alert('Password and Confirm Password do not match!');
+      return;
+    }
+    
+    this.userService.registerClient('/addClientProfile', this.register).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if (res) {
+          alert('Registration done successfuly.');
+          this.router.navigate(['/login']);
+        } else {
+          alert(res.message || 'Invalid data');
+        }
+      },
+      error: () => {
+        alert('Registration failed. Please try again.');
+      }
+
+    })
 
 
   }

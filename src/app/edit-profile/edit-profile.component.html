@@ -1,0 +1,47 @@
+<div class="container">
+    <!-- Card: Form -->
+    <section class="card">
+        <div class="card__header">
+            <h2 class="card__title">Update profile</h2>
+            <div class="card__actions">
+                <button class="btn" (click)="reset()">Reset</button>
+            </div>
+        </div>
+        <div class="card__body">
+                <div class="col-6">
+                    <label for="name">Id</label>
+                    <div class="field">
+                        <input id="name" type="text" [(ngModel)]="profile.id" placeholder="e.g., CM123" disabled/>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="topic">Name</label>
+                    <div class="field">
+                        <input id="topic" type="text" [(ngModel)]="profile.name" placeholder="Enter your name" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="startTime">Email </label>
+                    <div class="field">
+                        <input id="startTime" type="email" [(ngModel)]="profile.email" placeholder="eg.,xyz@gmail.com" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="people">Password </label>
+                    <div class="field">
+                        <input id="people" type="password" [(ngModel)]="profile.password" placeholder="********** " />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <label for="phone">Conform Password</label>
+                    <div class="field">
+                        <input id="phone" type="password" [(ngModel)]="profile.repeat_password" placeholder="*********" />
+                    </div>
+                </div>
+                <div class="col-12" style="display:flex; gap:10px; justify-content:flex-end;">
+                    <button class="btn" type="button" (click)="reload()">Cancel</button>
+                    <button class="btn btn--primary" (click)="  editProfile()">Save</button>
+                </div>
+        </div>
+    </section>
+</div>

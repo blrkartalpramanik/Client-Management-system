@@ -1,0 +1,90 @@
+<div class="container">
+    <!-- Card: Form -->
+    <section class="card">
+        <div class="card__header">
+            <h2 class="card__title">Search Meeting</h2>
+            <div class="card__actions">
+                <button class="btn" (click)="reset()">Reset</button>
+                <button class="btn btn--primary" (click)="navigateTocreate()">Create</button>
+            </div>
+        </div>
+        <div class="card__body">
+
+            <div class="col-6">
+                <label for="name">Metting Id</label>
+                <div class="field">
+                    <input id="name" type="text" [(ngModel)]="searchCriteria.meeting_id" placeholder="e.g., Cl123" />
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="topic">Meeting Topic</label>
+                <div class="field">
+                    <input id="topic" type="text" [(ngModel)]="searchCriteria.meeting_topic"
+                        placeholder="Project Disscussion" />
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="startTime">Start Time</label>
+                <div class="field">
+                    <input id="startTime" type="datetime-local" [(ngModel)]="searchCriteria.start_time"
+                        placeholder="Project Disscussion" />
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="phone">Phone</label>
+                <div class="field">
+                    <input id="phone" type="tel" [(ngModel)]="searchCriteria.phone" placeholder="+91 98xxxxxxxx" />
+                </div>
+            </div>
+
+            <div class="col-12" style="display:flex; gap:10px; justify-content:flex-end;">
+                <button class="btn" type="button">Cancel</button>
+                <button class="btn" type="button" (click)="findBy()">Find</button>
+            </div>
+        </div>
+    </section>
+    <!-- Card: Table -->
+    <section class="card">
+        <div class="card__header">
+            <h2 class="card__title">Recent Meetings</h2>
+            <div class="card__actions">
+                <button class="btn" (click)="exportToPdf()">Export</button>
+            </div>
+        </div>
+        <div class="card__body">
+            <div class="table-wrap">
+                <table id="myTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Meeting Topic</th>
+                            <th>Start Time</th>
+                            <th>Number of People</th>
+                            <th>Phone</th>
+                            <th>Meeting Link</th>
+                            <th>Remarks</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let list of meetingList">
+                            <td>{{list.meeting_id}}</td>
+                            <td>{{list.meeting_topic}}</td>
+                            <td>{{list.start_time | date:'short'}}</td>
+                            <td>{{list.number_of_people}}</td>
+                            <td>{{list.phone}}</td>
+                           <td><a [href]="list.meeting_link" target="_blank">Join Meeting</a></td>
+                            <td>{{list.remarks}}</td>
+                            <td><i class="fas fa-edit" style="cursor: pointer;"
+                                    routerLink="/edit/{{list.Meeting_id}}"></i><i class="fas fa-trash"
+                                    style="cursor: pointer;" (click)="delete(list.meeting_id)"></i></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</div>

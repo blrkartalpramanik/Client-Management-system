@@ -1,0 +1,43 @@
+.calendar-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+}
+
+
+/* Ensure events allow multiple lines */
+.fc .fc-daygrid-event {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  white-space: normal !important;
+  height: auto !important;
+  font-size: 14px;
+  text-align: center !important;
+  padding: 2px 4px;
+}
+/* Make each event display as a column, center aligned */
+.fc .fc-event {
+  display: flex !important;
+  flex-direction: column !important; /* stack time above title */
+  align-items: center !important;     /* center horizontally */
+  white-space: normal !important;     /* allow wrapping */
+  height: auto !important;
+  padding: 2px 4px;
+  text-align: center;
+}
+
+/* Time on top, bold */
+.fc-event-time {
+  display: block !important;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+/* Title below time */
+.fc-event-title {
+  display: block !important;
+  text-align: center !important;
+  line-height: 1.2em;
+  word-wrap: break-word; /* allow long titles to wrap */
+}

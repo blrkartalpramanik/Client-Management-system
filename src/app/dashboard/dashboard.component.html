@@ -1,2 +1,10 @@
-<button (click)="logout()">Logout</button>
-<p>dashboard works!</p>
+<app-top-bar></app-top-bar>
+
+<div class="content">
+  <app-side-bar></app-side-bar>
+
+  <main class="main">
+    <router-outlet></router-outlet> <!-- child pages load here -->
+  </main>
+</div>
+

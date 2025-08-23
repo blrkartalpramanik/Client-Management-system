@@ -1,1 +1,28 @@
-<p>top-bar works!</p>
+<header class="topbar">
+  <!-- Left side: brand/logo -->
+  <div class="topbar__brand">
+    <span style="color:black">Logo</span> Client Management System
+  </div>
+
+  <!-- Right side: actions -->
+  <div class="topbar__actions">
+    <!-- Notifications -->
+    <button class="icon-btn" title="Notifications">
+      <i class="fas fa-bell"></i>
+    </button>
+
+    <!-- Profile dropdown -->
+    <div class="profile">
+       <i class="fa fa-user-circle profile-icon"></i>
+      <div class="profile__info">
+        <div class="role">{{name}}</div>
+        <div class="name">{{role}}</div>
+      </div>
+    </div>
+
+    <!-- Logout -->
+    <button class="btn btn--danger" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i>
+    </button>
+  </div>
+</header>
