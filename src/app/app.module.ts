@@ -17,6 +17,7 @@ import { MeetingListComponent } from './meeting-list/meeting-list.component';
 import { DashboardHomeComponent } from './dashboard-home/dashboard-home.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { LoaderComponent } from './loader/loader.component';
 
 
 const routes: Routes = [
@@ -54,7 +55,8 @@ const routes: Routes = [
     ScheduleMeetingComponent,
     MeetingListComponent,
     DashboardHomeComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,

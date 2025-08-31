@@ -14,6 +14,7 @@ import { UserService } from '../user.service';
 export class DashboardHomeComponent implements OnInit {
   meetingList: any[] = [];
   token: any;
+  isLoader:boolean = true;
 
   constructor(private userService: UserService) { }
 
@@ -38,66 +39,73 @@ export class DashboardHomeComponent implements OnInit {
       next: (res: any) => {
         if (res) {
           this.meetingList = res;
-
-          const today = new Date();
+           setTimeout(() => {
+            this.isLoader = false;
+          }, 1000);
+          const now = new Date();
           const eventList = this.meetingList.map((meeting: any) => {
             const meetingDate = new Date(meeting.start_time);
             let titlePrefix = '';
             let eventUrl: string | null = null;
 
-            if (meetingDate.toDateString() === today.toDateString()) {
-              titlePrefix = 'Join Meeting';
-              eventUrl = meeting.start_link; console.log("meeting_link"+JSON.stringify(meeting.start_link))
-            } else if (meetingDate > today) {
+            if (meetingDate.toDateString() === now.toDateString()) {
+              if (now.getTime() >= meetingDate.getTime()) {
+                titlePrefix = 'Join Meeting';
+                eventUrl = meeting.start_link;
+                console.log("meeting_link: " + JSON.stringify(meeting.start_link));
+              } else {
+                titlePrefix = 'In Progress';
+              }
+            } else if (meetingDate > now) {
               titlePrefix = 'Upcoming Meeting';
             } else {
               titlePrefix = 'Meeting Passed';
             }
 
             return {
-  title: `${meeting.meeting_topic}`,
-  start: meeting.start_time,
-  url: eventUrl && eventUrl.trim() !== '' ? eventUrl : undefined, 
-  color:
-    titlePrefix === 'Join Meeting'
-      ? 'blue'
-      : titlePrefix === 'Upcoming Meeting'
-        ? 'green'
-        : 'red',
-  extendedProps: {
-    prefix: titlePrefix,
-    meetingLink: eventUrl // ✅ Store the link for custom logic
-  }
-};
-
+              title: `${meeting.meeting_topic}`,
+              start: meeting.start_time,
+              url: (titlePrefix === 'Join Meeting' && eventUrl && eventUrl.trim() !== '') ? eventUrl : undefined,
+              color:
+                titlePrefix === 'Join Meeting'
+                  ? 'blue'
+                  : titlePrefix === 'In Progress'
+                    ? 'orange'
+                    : titlePrefix === 'Upcoming Meeting'
+                      ? 'green'
+                      : 'red',
+              extendedProps: {
+                prefix: titlePrefix,
+                meetingLink: eventUrl
+              }
+            };
           });
 
-          // Assign events + eventClick + eventContent
+          // Update calendar options
           this.calendarOptions = {
             ...this.calendarOptions,
             events: eventList,
             eventContent: (arg) => {
               const prefix = arg.event.extendedProps['prefix'] || '';
-              const color = arg.event.extendedProps['color'] || 'gray'; // use extendedProps
+              const color = arg.event.backgroundColor || 'gray';
 
               return {
                 html: `
-      <div style="text-align:center; line-height:1.2; display:flex; flex-direction:column; align-items:center;">
-        <div style="width:8px; height:8px; border-radius:50%; background-color:${color}; margin-bottom:2px;"></div>
-        <div style="font-weight:bold;">${prefix}</div>
-        <div>${arg.timeText} - ${arg.event.title}</div>
-      </div>
-    `
+                <div style="text-align:center; line-height:1.2; display:flex; flex-direction:column; align-items:center;">
+                  <div style="width:8px; height:8px; border-radius:50%; background-color:${color}; margin-bottom:2px;"></div>
+                  <div style="font-weight:bold;">${prefix}</div>
+                  <div>${arg.timeText} - ${arg.event.title}</div>
+                </div>
+              `
               };
             },
             eventClick: (info) => {
-              if (info.event.url) {
-                window.open(info.event.url, '_blank'); 
-                info.jsEvent.preventDefault();
+              if (info.event.extendedProps['prefix'] === 'Join Meeting' && info.event.url) {
+                window.open(info.event.url, '_blank');
               } else {
-                alert('This meeting is not available today.');
-                info.jsEvent.preventDefault();
+                alert('This meeting is not available to join now.');
               }
+              info.jsEvent.preventDefault();
             }
           };
         }
@@ -107,4 +115,5 @@ export class DashboardHomeComponent implements OnInit {
       }
     });
   }
+
 }

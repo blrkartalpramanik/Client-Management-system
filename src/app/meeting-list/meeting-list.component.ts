@@ -16,10 +16,10 @@ export class MeetingListComponent implements OnInit {
   constructor(private router: Router, private userService: UserService) { }
 
   meetingList: any;
-
+  isLoader: boolean = true;
   searchCriteria: any = {
     meeting_topic: '',
-    client_id:'',
+    client_id: '',
     start_time: '',
     phone: ''
   };
@@ -43,13 +43,16 @@ export class MeetingListComponent implements OnInit {
 
   list() {
     const client_id = localStorage.getItem('id');
-    this.userService.getById('/getAllById', this.token,{client_id}).subscribe({
+    this.userService.getById('/getAllById', this.token, { client_id }).subscribe({
 
       next: (res: any) => {
         console.log(res);
         if (res) {
 
           this.meetingList = res;
+          setTimeout(() => {
+            this.isLoader = false;
+          }, 1000);
         }
       },
       error: () => {
@@ -58,6 +61,24 @@ export class MeetingListComponent implements OnInit {
     })
 
   }
+  // meeting-list
+  getMeetingStatus(meeting: any): { text: string, link?: string } {
+    const now = new Date();
+    const meetingDate = new Date(meeting.start_time);
+
+    if (meetingDate.toDateString() === now.toDateString()) {
+      if (now.getTime() >= meetingDate.getTime()) {
+        return { text: 'Join Meeting', link: meeting.start_link };
+      } else {
+        return { text: 'In Progress' }; 
+      }
+    } else if (meetingDate > now) {
+      return { text: 'Upcoming Meeting' };
+    } else {
+      return { text: 'Meeting Passed' };
+    }
+  }
+
 
   findBy() {
     this.searchCriteria.client_id = localStorage.getItem('id');
@@ -65,6 +86,9 @@ export class MeetingListComponent implements OnInit {
       next: (res: any) => {
         console.log('Search result:', res);
         this.meetingList = res;
+        setTimeout(() => {
+          this.isLoader = false;
+        }, 1000);
       },
       error: () => {
         alert('Search failed. Please try again.');
@@ -80,30 +104,31 @@ export class MeetingListComponent implements OnInit {
 
 
   delete(id: any) {
-   
-    this.userService.delete(`/deleteMeetingBy`,id, this.token).subscribe({
-        next: (res: any) => {
-            if (res) {
-                alert('Meeting deleted successfully');
-                 this.router.navigate(['/meeting']);
-            }
-        },
-        error: (err) => {
-            console.error('Delete failed', err);
+
+    this.userService.delete(`/deleteMeetingBy`, id, this.token).subscribe({
+      next: (res: any) => {
+        if (res) {
+          alert('Meeting deleted successfully');
+          this.meetingList = this.meetingList.filter((m: { meeting_id: any; }) => m.meeting_id !== id);
         }
+      },
+      error: (err) => {
+        console.error('Delete failed', err);
+      }
     });
-}
+    
+  }
 
 
-exportToPdf(){ alert('hello')
- const pdf = new jsPDF();
+  exportToPdf() {
+    const pdf = new jsPDF();
 
     autoTable(pdf, { html: '#myTable' });
 
 
     pdf.save('table-data.pdf');
-  
-}
+
+  }
 
 
 }

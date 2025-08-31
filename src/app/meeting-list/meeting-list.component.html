@@ -47,7 +47,7 @@
     <!-- Card: Table -->
     <section class="card">
         <div class="card__header">
-            <h2 class="card__title">Recent Meetings</h2>
+            <h2 class="card__title">Upcoming Meetings</h2>
             <div class="card__actions">
                 <button class="btn" (click)="exportToPdf()">Export</button>
             </div>
@@ -71,14 +71,24 @@
                         <tr *ngFor="let list of meetingList">
                             <td>{{list.meeting_id}}</td>
                             <td>{{list.meeting_topic}}</td>
-                            <td>{{list.start_time | date:'short'}}</td>
+                            <td>{{list.start_time | date:'dd/MM/yyyy  HH:MM'}}</td>
                             <td>{{list.number_of_people}}</td>
                             <td>{{list.phone}}</td>
-                           <td><a [href]="list.meeting_link" target="_blank">Join Meeting</a></td>
+                            <td>
+                                <ng-container *ngIf="getMeetingStatus(list).link; else statusText">
+                                    <a [href]="getMeetingStatus(list).link" target="_blank">
+                                        {{ getMeetingStatus(list).text }}
+                                    </a>
+                                </ng-container>
+                                <ng-template #statusText>
+                                    {{ getMeetingStatus(list).text }}
+                                </ng-template>
+                            </td>
+
                             <td>{{list.remarks}}</td>
                             <td><i class="fas fa-edit" style="cursor: pointer;"
-                                    routerLink="/edit/{{list.Meeting_id}}"></i><i class="fas fa-trash"
-                                    style="cursor: pointer;" (click)="delete(list.meeting_id)"></i></td>
+                                    [routerLink]="['/edit', list.meeting_id]" title="Edit"></i><i class="fas fa-trash"
+                                    style="cursor: pointer;" (click)="delete(list.meeting_id)" title="Delete"></i></td>
                         </tr>
 
                     </tbody>
@@ -87,4 +97,8 @@
         </div>
     </section>
 
+</div>
+
+<div class="col-12 md-5 text-center" *ngIf="isLoader">
+    <app-loader></app-loader>
 </div>

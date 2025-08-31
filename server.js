@@ -68,18 +68,31 @@ app.get('/getClientProfile', verifyToken, (req, res) => {
 //Add client registration
 
 app.post('/addClientProfile', (req, res) => {
-    const { name, email, password, repeat_password } = req.body;
+    const { name, email, password, repeat_password, address } = req.body;
     const role = 'c';
-
-    const sql = 'INSERT INTO user_profile (name, email, password, repeat_password, role) VALUES (?, ?, ?, ?, ?)';
-
-    db.query(sql, [name, email, password, repeat_password, role], (err, result) => {
+    // Check if email exists
+    const checkEmailQuery = 'SELECT * FROM user_profile WHERE email = ?';
+    db.query(checkEmailQuery, [email], (err, results) => {
         if (err) {
-            console.error('Error in inserting profile:', err);
-            res.status(500).json({ error: 'An error occurred' });
-        } else {
-            res.status(200).json({ message: 'Profile Created successfully' });
+            console.error(err);
+            return res.status(500).json({ error: 'Database error' });
         }
+
+        if (results.length > 0) {
+            // Email already exists
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
+        const sql = 'INSERT INTO user_profile (name, email, password, repeat_password, role,address) VALUES (?, ?, ?, ?, ?, ?)';
+
+        db.query(sql, [name, email, password, repeat_password, role, address], (err, result) => {
+            if (err) {
+                console.error('Error in inserting profile:', err);
+                res.status(500).json({ error: 'An error occurred' });
+            } else {
+                res.status(200).json({ message: 'You have successfully Registerd' });
+            }
+        });
     });
 });
 
@@ -146,11 +159,11 @@ app.post('/login', (req, res) => {
 //adit client profile
 
 app.put('/editProfile', verifyToken, (req, res) => {
-    const { id, name, email, password, repeat_password, role } = req.body;
+    const { id, name, email, password, repeat_password, role, address } = req.body;
 
-    const sql = 'INSERT INTO user_profile (name, email, password, repeat_password,) VALUES (?, ?, ?, ?,?)';
+    const sql = 'INSERT INTO user_profile (name, email, password, repeat_password,address) VALUES (?, ?, ?, ?,?,?)';
 
-    db.query(sql, [name, email, password, repeat_password, role, id], (err, result) => {
+    db.query(sql, [name, email, password, repeat_password, role, address, id], (err, result) => {
         if (err) {
             console.error('Error in updating profile data:', err);
             res.status(500).json({ error: 'An error occurred while updating' });
@@ -176,6 +189,23 @@ app.get('/getClientProfile/:id', verifyToken, (req, res) => {
         }
     })
 })
+
+//get meeting by id
+app.get('/getMeeting/:id', verifyToken, (req, res) => {
+
+    const id = req.params.id;
+    const sql = 'select * from client_meeting where meeting_id=?';
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.log('Error in fetch Client profile');
+            res.status(500).json({ error: 'An error occure' })
+        }
+        else {
+            res.status(200).json(result)
+        }
+    })
+})
+
 
 
 //create meeting
@@ -385,9 +415,9 @@ app.get('/getAllById', verifyToken, (req, res) => {
 
 app.put('/updateProfile', verifyToken, (req, res) => {
 
-    const { id, name, email, password, repeat_password } = req.body;
-    const sql = 'update user_profile set name=? ,email=?,password=?,repeat_password=? where id=?';
-    db.query(sql, [name, email, password, repeat_password, id], (err, result) => {
+    const { id, name, email, password, repeat_password, address } = req.body;
+    const sql = 'update user_profile set name=? ,email=?,password=?,repeat_password=?,address=? where id=?';
+    db.query(sql, [name, email, password, repeat_password, address, id], (err, result) => {
         if (err) {
             console.log('Error in fetch product');
             res.status(500).json({ error: 'An error occure' })

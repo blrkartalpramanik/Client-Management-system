@@ -30,13 +30,13 @@
                 <div class="col-6">
                     <label for="people">Number of People </label>
                     <div class="field">
-                        <input id="people" type="text" [(ngModel)]="meeting.number_of_people" placeholder="eg.,1 5 " />
+                        <input id="people" type="text" (input)="validateNumber($event,'number_of_people')" [(ngModel)]="meeting.number_of_people" placeholder="eg.,1 5 " />
                     </div>
                 </div>
                 <div class="col-6">
                     <label for="phone">Phone</label>
                     <div class="field">
-                        <input id="phone" type="tel" [(ngModel)]="meeting.phone" placeholder="+91 98xxxxxxxx" />
+                        <input id="phone" (input)="validateNumber($event,'phone')" maxlength="10" type="tel" inputmode="numeric" [(ngModel)]="meeting.phone" placeholder="+91 98xxxxxxxx" />
                     </div>
                 </div>
                 <!-- <div class="col-6">
@@ -59,8 +59,14 @@
 
                 <div class="col-12" style="display:flex; gap:10px; justify-content:flex-end;">
                     <button class="btn" type="button" (click)="reload()">Cancel</button>
-                    <button class="btn btn--primary" (click)="  addMeeting()">Save</button>
+                    <button class="btn btn--primary" *ngIf="isVisible" (click)="  addMeeting()" >Save</button>
+                    <button class="btn btn--primary" *ngIf="!isVisible" (click)="  UpdateMeeting()" >Update</button>
                 </div>
         </div>
     </section>
+</div>
+
+<!-- Loader -->
+<div class="col-12 md-5 text-center" *ngIf="isLoader">
+    <app-loader></app-loader>
 </div>

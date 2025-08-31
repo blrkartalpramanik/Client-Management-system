@@ -11,7 +11,7 @@ import { UserService } from '../user.service';
 })
 export class EditProfileComponent implements OnInit {
 
-
+  isLoader:boolean = true;
   token: any;
   profile: Profile = new Profile();
   constructor(private router: Router, private userService: UserService) { }
@@ -33,7 +33,10 @@ export class EditProfileComponent implements OnInit {
   this.userService.getById('/getClientProfile/' + localStorage.getItem('id'), this.token)
     .subscribe((response: any) => {
       if (response && response.length > 0) {
-        this.profile = response[0]; 
+        this.profile = response[0]; console.log(this.profile)
+         setTimeout(() => {
+            this.isLoader = false;
+          }, 1000);
       }
       console.log(this.profile);
     },
@@ -42,7 +45,7 @@ export class EditProfileComponent implements OnInit {
 }
 
  reset() {
-    this.profile = { name:'',id: '', email: '', password: '', repeat_password: '',role:'' };
+    this.profile = { name:'',id: '', email: '', password: '', repeat_password: '',role:'',address:'' };
   }
 
 

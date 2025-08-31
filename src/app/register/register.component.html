@@ -1,5 +1,5 @@
-<div class="container vh-100 d-flex justify-content-center align-items-center">
-  <div class="p-4 bg-light rounded shadow" style="min-width: 320px;">
+<div class="container vh-100 d-flex justify-content-center align-items-center" style="margin-top:50px">
+  <div class="p-4 bg-light rounded shadow" style="min-width: 420px;padding: 100px;">
 
         <h3 class="text-center mb-4">Register</h3>
 
@@ -11,6 +11,11 @@
             <div class="mb-3">
                 <label for="emailRegisterInput" class="form-label">Email address</label>
                 <input type="email" class="form-control" id="emailRegisterInput" [(ngModel)]="register.email">
+            </div>
+
+            <div class="mb-3">
+                <label for="addressRegisterInput" class="form-label">Address</label>
+                <textarea  class="form-control" id="addressRegisterInput" [(ngModel)]="register.address"></textarea>
             </div>
 
             <div class="mb-3">

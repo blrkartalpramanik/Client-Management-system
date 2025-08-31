@@ -4,7 +4,9 @@ export class Meeting {
     meeting_topic: string = '';
     start_time: any;
     number_of_people:any;
-    phone: string = '';
+    meeting_link:any;
+    start_link:any;
+    phone: any;
     remarks: string = '';
 
 }

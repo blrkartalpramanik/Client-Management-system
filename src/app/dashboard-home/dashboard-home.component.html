@@ -1,3 +1,8 @@
 <div style="width: 100%; max-width: 100%; overflow-x: auto;">
   <full-calendar [options]="calendarOptions" style="width: 100%;"></full-calendar>
 </div>
+
+<!-- Loader -->
+<div class="col-12 md-5 text-center" *ngIf="isLoader">
+    <app-loader></app-loader>
+</div>
